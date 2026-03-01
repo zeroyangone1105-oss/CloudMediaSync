@@ -1,0 +1,19 @@
+services:
+  emby:
+    image: docker.1panel.live/amilys/embyserver:4.8.11.0
+    #image: amilys/embyserver:4.8.11.0
+    container_name: emby_amilys
+    privileged: true
+    restart: unless-stopped
+    network_mode: bridge
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+    volumes:
+      - ./config:/config
+      - /data/media:/media
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=022
+      - TZ=Asia/Shanghai

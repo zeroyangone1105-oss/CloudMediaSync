@@ -1,0 +1,30 @@
+services:
+  cloud-media-sync:
+    privileged: true
+    container_name: cloud-media-sync
+    image: docker.1panel.live/imaliang/cloud-media-sync:latest
+    #image: imaliang/cloud-media-sync:latest
+    restart: unless-stopped
+    network_mode: bridge
+    volumes:
+      - './config:/config'
+      - './logs:/logs'
+      - './cache:/var/cache/nginx/emby'
+      - '/data/media:/media'
+    ports:
+      - "9527:9527"
+      - "9096:9096"
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=022
+      - TZ=Asia/Shanghai
+      - RUN_ENV=online
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+      - EMBY_HOST_PORT=http://172.17.0.1:8096
+      - EMBY_API_KEY=4b859d9e203e49f3ac78dcae1b4de1ce
+      - DONATE_CODE=xxx
+      # - HTTP_PROXY=http://172.17.0.1:7890
+      # - HTTPS_PROXY=http://172.17.0.1:7890
+      # - NO_PROXY=localhost,127.0.0.0/8,10.0.0.0/8,172.0.0.0/8,192.168.0.0/16

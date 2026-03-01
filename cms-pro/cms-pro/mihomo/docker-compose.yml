@@ -1,0 +1,32 @@
+services:
+  mihomo:
+    container_name: mihomo
+    image: docker.1panel.live/metacubex/mihomo
+    #image: metacubex/mihomo
+    restart: always
+    network_mode: bridge
+    cap_add:
+      - ALL
+    security_opt:
+      - apparmor=unconfined
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "7890:7890" # HTTP 代理
+      - "7891:7891" # SOCKS5
+      - "9091:9090" # external-controller
+    volumes:
+      - ./config:/root/.config/mihomo
+      - /dev/net/tun:/dev/net/tun
+
+  metacubexd:
+    container_name: metacubexd
+    image: ghcr.io/metacubex/metacubexd
+    restart: always
+    network_mode: bridge
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "9092:80"
+    volumes:
+      - ./metacubexd:/config/caddy
